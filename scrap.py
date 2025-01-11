@@ -16,7 +16,9 @@ class WebScraper:
         """Carga las URLs desde un archivo de texto."""
         try:
             with open(self.file_path, 'r') as file:
-                return [url.strip() for url in file.readlines()]
+                urls = [url.strip() for url in file.readlines()]
+                #print("URLs cargadas:", urls)  # Verifica las URLs cargadas
+                return urls
         except FileNotFoundError:
             print(f"El archivo {self.file_path} no fue encontrado.")
             return []
@@ -28,7 +30,7 @@ class WebScraper:
                 response = requests.get(url, headers=self.headers, timeout=self.timeout)
                 if response.status_code == 200:
                     print(f"URL: {url} - Código de respuesta 200 - éxito.")
-                    self.parse_content(response.text)
+                    # self.parse_content(response.text)
                     return  # Salir si la solicitud fue exitosa
                 else:
                     print(f"URL: {url} - Código de respuesta {response.status_code}. No se puede realizar el scraping.")
@@ -48,13 +50,17 @@ class WebScraper:
         for title in soup.find_all('h2'):  # Cambia 'h2' por el selector que necesites
             print(title.get_text())
 
-    def run(self):
-        """Ejecuta el scraping para todas las URLs cargadas."""
+    def run(self, product):
+        """Ejecuta el scraping para todas las URLs cargadas con el producto especificado."""
         for url in self.urls:
             if url:  # Verifica que la URL no esté vacía
-                self.scrape_page(url)
+                # modified_url = url.format(product=product)  # Reemplaza {producto} con el producto ingresado
+                # self.scrape_page(modified_url)
+                modified_url = f"{url.replace('{producto}', product)}"  # Reemplaza {producto} con el producto ingresado
+                self.scrape_page(modified_url)
 
 # Uso de la clase WebScraper
 if __name__ == "__main__":
+    product = input("Por favor, ingresa el nombre del producto que deseas buscar: ")
     scraper = WebScraper('urls.txt', timeout=10, retries=3)
-    scraper.run()
+    scraper.run(product)
