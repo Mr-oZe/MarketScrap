@@ -30,7 +30,7 @@ class WebScraper:
                 response = requests.get(url, headers=self.headers, timeout=self.timeout)
                 if response.status_code == 200:
                     print(f"URL: {url} - Código de respuesta 200 - éxito.")
-                    # self.parse_content(response.text)
+                    self.parse_content(response.text)
                     return  # Salir si la solicitud fue exitosa
                 else:
                     print(f"URL: {url} - Código de respuesta {response.status_code}. No se puede realizar el scraping.")
