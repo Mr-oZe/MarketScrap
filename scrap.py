@@ -17,7 +17,7 @@ class WebScraper:
         try:
             with open(self.file_path, 'r') as file:
                 urls = [url.strip() for url in file.readlines()]
-                #print("URLs cargadas:", urls)  # Verifica las URLs cargadas
+                print("URLs cargadas:", urls)  # Verifica las URLs cargadas
                 return urls
         except FileNotFoundError:
             print(f"El archivo {self.file_path} no fue encontrado.")
