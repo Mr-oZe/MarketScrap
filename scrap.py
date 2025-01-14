@@ -30,7 +30,7 @@ class WebScraper:
                 response = requests.get(url, headers=self.headers, timeout=self.timeout)
                 if response.status_code == 200:
                     print(f"URL: {url} - Código de respuesta 200 - éxito.")
-                    self.parse_content(response.text)
+                    # self.parse_content(response.text)
                     return  # Salir si la solicitud fue exitosa
                 else:
                     print(f"URL: {url} - Código de respuesta {response.status_code}. No se puede realizar el scraping.")
@@ -46,9 +46,16 @@ class WebScraper:
         """Analiza el contenido HTML y extrae información deseada."""
         soup = BeautifulSoup(html, 'html.parser')
         
+        print(f"Title : {soup.title}")
+        print(f"Title Name: {soup.title.name}")
+        print(f"Title String: {soup.title.string}")
+
         # Aquí puedes agregar el código para extraer la información deseada
-        for title in soup.find_all('h2'):  # Cambia 'h2' por el selector que necesites
-            print(title.get_text())
+        #for title in soup.find_all('h2'):  # Cambia 'h2' por el selector que necesites
+        #    print(title.get_text())
+        # Aquí probamos en recolectar los href que se encuentran en la página
+        for link in soup.find_all('a'):  # Cambia 'h2' por el selector que necesites
+            print(link.get('href'))
 
     def run(self, product):
         """Ejecuta el scraping para todas las URLs cargadas con el producto especificado."""
